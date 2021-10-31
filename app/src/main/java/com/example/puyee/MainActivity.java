@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,13 +51,21 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == 2){
             Uri uris;
-            uris = data.getData(); Bitmap bitmap = null; //Uri转化为Bitmap
+            uris = data.getData();
+            Bitmap bitmap = null; //Uri转化为Bitmap
             try {
                 bitmap = getBitmapFromUri(uris);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            imageView.setImageBitmap(bitmap);
+            Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+            intent.putExtra("bitmap", bitmap);
+            startActivity(intent);
         }
+
+    }
+    private Bitmap getBitmapFromUri(Uri uri) throws FileNotFoundException {
+        return
+                BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
     }
 }
