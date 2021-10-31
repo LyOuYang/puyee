@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         ImageView image = findViewById(R.id.imageIcon);
         image.setOnClickListener((v) -> {
             Intent intent = new Intent(Intent.ACTION_PICK); //指定获取的是图片
-            intent.setType("image/*"); startActivityForResult(intent, REQUEST_IMAGE_OPEN);
+            intent.setType("image/*");
+            startActivityForResult(intent, 2);
         });
 
     }
@@ -40,19 +41,14 @@ public class MainActivity extends AppCompatActivity {
         if (data == null) {
             return;
         }
-        Bitmap pic = data.getParcelableExtra("data");
-        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
-        intent.putExtra("bitmap", pic);
-        startActivity(intent);
-        // 调转到image对应的activity
-        // 参数带过去
-    }
+        if (requestCode == 1) {
+            Bitmap pic = data.getParcelableExtra("data");
+            Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+            intent.putExtra("bitmap", pic);
+            startActivity(intent);
+        }
 
-
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //将选择的图片显示
-        if(requestCode == REQUEST_IMAGE_OPEN && resultCode == Activity.RESULT_OK && data != null){
+        if(requestCode == 2){
             Uri uris;
             uris = data.getData(); Bitmap bitmap = null; //Uri转化为Bitmap
             try {
@@ -63,5 +59,4 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
     }
-
 }
