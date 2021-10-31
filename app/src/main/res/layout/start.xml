@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="谱易"
+        android:textSize="78sp"
+        android:textColor="#9889C8" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PUYEE"
+        android:textSize="42sp"
+        android:textColor="#94BAE6" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:id="@+id/introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="一个五线谱转简谱的软件"
+        android:textSize="22sp"
+        android:textColor="#AAAFB5" />
+
+
+
+</LinearLayout>
