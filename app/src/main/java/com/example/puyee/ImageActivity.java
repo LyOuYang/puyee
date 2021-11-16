@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends BaseActivity {
     private static final int STORAGE_REQ_CODE = 10;
     ImageView imageView;
     @Override

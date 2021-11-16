@@ -14,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/upload"
-        android:fontFamily="@font/estonia"
-        android:textSize="36sp"
-        android:textColor="#8273B0" />
+        android:textSize="52sp"
+        android:textColor="#6F848F"
+        fontPath="fonts/Petemoss-Regular.ttf"/>
 
     <ImageView
 
