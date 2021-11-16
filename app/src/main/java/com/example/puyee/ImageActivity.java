@@ -26,9 +26,9 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image);
+        imageView = findViewById(R.id.image_view);
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
-        imageView = findViewById(R.id.image_view);
         if (source.equals("1")) {
             Intent image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(image, 1);
@@ -63,6 +63,29 @@ public class ImageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "权限获取失败", Toast.LENGTH_SHORT).show();
             }
         }
+        if (requestCode == 11) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BIND_VOICE_INTERACTION) == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), "权限获取成功", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "权限获取失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private boolean getVideoPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BIND_VOICE_INTERACTION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        // 否----》弹框让用户给予权限
+        String[] permission = {Manifest.permission.BIND_VOICE_INTERACTION};
+        ActivityCompat.requestPermissions(ImageActivity.this, permission, 11);
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(getApplicationContext(), "欢迎下次光临", Toast.LENGTH_SHORT).show();
     }
 
     // 在某种满足的情况下被
@@ -70,6 +93,8 @@ public class ImageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) {
+            onDestroy();
+            finish();
             return;
         }
         Bitmap bitmap = null;

@@ -2,4 +2,6 @@
     <string name="app_name">Puyee</string>
     <string name="cancel">cancel</string>
     <string name="confirm">confirm</string>
+    <string name="preview">preview</string>
+    <string name="upload">upload sheet music</string>
 </resources>

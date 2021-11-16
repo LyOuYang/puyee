@@ -2,4 +2,6 @@
 <string name="app_name">Puyee</string>
 <string name="cancel">取消</string>
 <string name="confirm">确认</string>
+    <string name="preview">预览</string>
+    <string name="upload">上传五线谱</string>
 </resources>

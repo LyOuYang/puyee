@@ -24,21 +24,21 @@ import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ImageView camera = findViewById(R.id.cameraIcon);
         camera.setOnClickListener((v) -> {
-            Intent intent = new Intent(MainActivity.this, ImageActivity.class);
             intent.putExtra("source", "1");
             startActivity(intent);
         });
 
         ImageView image = findViewById(R.id.imageIcon);
         image.setOnClickListener((v) -> {
-            Intent intent = new Intent(MainActivity.this, ImageActivity.class);
             intent.putExtra("source", "2");
             startActivity(intent);
         });
