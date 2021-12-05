@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/preview"
-        android:fontFamily="serif"
+        fontPath="fonts/PlayfairDisplay-VariableFont_wght.ttf"
         android:textColor="#AAAFB5"
-        android:textSize="26sp"/>
+        android:textSize="32sp"/>
 
     <ImageView
         android:id="@+id/image_view"
@@ -34,6 +34,7 @@
             android:layout_width="128dp"
             android:layout_height="64dp"
             android:text="@string/cancel"
+            fontPath="fonts/PlayfairDisplay-VariableFont_wght.ttf"/>
             android:textColor="#9889C8"
             android:backgroundTint="@color/white"/>
 
@@ -47,6 +48,7 @@
             android:layout_width="128dp"
             android:layout_height="64dp"
             android:text="@string/confirm"
+            fontPath="fonts/PlayfairDisplay-VariableFont_wght.ttf"/>
             android:textColor="#9889C8"
             android:backgroundTint="@color/white"/>
     </LinearLayout>

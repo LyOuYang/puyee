@@ -1,5 +1,7 @@
 package com.example.puyee.utils;
 
+import android.graphics.Bitmap;
+
 import com.example.puyee.bean.recognize.RecognizeRsp;
 import com.example.puyee.bean.token.Auth;
 import com.example.puyee.bean.token.Domain;
@@ -11,6 +13,7 @@ import com.example.puyee.bean.token.TokenReq;
 import com.example.puyee.bean.token.User;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +76,12 @@ public class NetworkUtils {
         return null;
     }
 
+    public static byte [] bitmapToByte(Bitmap bitmap, Bitmap.CompressFormat format) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(format, 100, baos);
+        return baos.toByteArray();
+    }
+
     public static RecognizeRsp getPuyeeRecognize(byte[] bytes) {
         String url = "https://ef577de4563e4a4b8186481fc5752730.apigw.cn-south-1.huaweicloud.com/v1/infers/ea50aaa9-beba-4880-b018-87a52085cdd0";
         String token = getQiaofeiToken();
@@ -85,22 +94,12 @@ public class NetworkUtils {
         return rsp;
     }
     public static RecognizeRsp getRecognizeResult(String url, String token, byte[] bytes) throws Exception {
-        OkHttpClient client = new OkHttpClient().newBuilder().callTimeout(20, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS)
-                .build();
+        OkHttpClient client = new OkHttpClient().newBuilder().callTimeout(20, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).build();
         MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("images","/C:/Users/Dehong/Pictures/test.png",
-                        RequestBody.create(MediaType.parse("application/octet-stream"),
-                                new File("/C:/Users/Dehong/Pictures/test.png")))
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .method("POST", body)
-                .addHeader("X-Auth-Token", token)
-                .build();
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("images","/C:/Users/Dehong/Pictures/test.png", RequestBody.create(MediaType.parse("application/octet-stream"), bytes)).build();
+        Request request = new Request.Builder().url(url).method("POST", body).addHeader("X-Auth-Token", token).build();
         Response response = null;
         response = client.newCall(request).execute();
-
         RecognizeRsp rsp = new Gson().fromJson(response.body().string(), RecognizeRsp.class);
         return rsp;
     }

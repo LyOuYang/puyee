@@ -4,4 +4,5 @@
     <string name="confirm">confirm</string>
     <string name="preview">preview</string>
     <string name="upload">upload sheet music</string>
+    <string name="convert">converting...</string>
 </resources>
