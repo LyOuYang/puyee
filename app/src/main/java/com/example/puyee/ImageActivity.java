@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,7 +51,6 @@ public class ImageActivity extends BaseActivity {
         public void dispatchMessage(@NonNull Message msg) {
             super.dispatchMessage(msg);
             if (msg.what == 1) {
-                List<List<Double>> box = result.getDetection_boxes();
                 Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                 Canvas canvas = new Canvas(bitmap);
                 Paint paint = new Paint();
@@ -58,14 +58,46 @@ public class ImageActivity extends BaseActivity {
                 paint.setAntiAlias(true);
                 // 防抖动
                 paint.setDither(true);
-
-                paint.setTextSize(39);
-                paint.setColor(Color.parseColor("#ff0000"));
-//                canvas.drawText(text, x, y, paint);
-//                return bitmap;
+                List<String> classes = result.getDetection_classes();
+                List<Double> scores = result.getDetection_scores();
+                List<List<Double>> boxes = result.getDetection_boxes();
+                for(int i = 0; i < boxes.size(); i++) {
+                    if(scores.get(i) > 0.6) {
+                        List<Double> box = boxes.get(i);
+                        Double y1 = box.get(0);
+                        Double x1 = box.get(1);
+                        Double y2 = box.get(2);
+                        Double x2 = box.get(3);
+                        Rect bounds = new Rect();
+//                        paint.getTextBounds(classes.get(i), 0, classes.get(i).length(), bounds);
+//                        int width = bounds.width();
+                        setTextSizeForWidth(paint, (float) (x2-x1), classes.get(i));
+                        paint.setColor(Color.parseColor("#ff0000"));
+                        canvas.drawText(classes.get(i), (float) (x1 - 0), (float) (y1 - 0), paint);
+                    }
+                }
             }
         } };
 
+    private static void setTextSizeForWidth(Paint paint, float desiredWidth, String text) {
+
+        // Pick a reasonably large value for the test. Larger values produce
+        // more accurate results, but may cause problems with hardware
+        // acceleration. But there are workarounds for that, too; refer to
+        // http://stackoverflow.com/questions/6253528/font-size-too-large-to-fit-in-cache
+        final float testTextSize = 48f;
+
+        // Get the bounds of the text, using our testTextSize.
+        paint.setTextSize(testTextSize);
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+
+        // Calculate the desired size as a proportion of our testTextSize.
+        float desiredTextSize = testTextSize * desiredWidth / bounds.width();
+
+        // Set the paint for that size.
+        paint.setTextSize(desiredTextSize);
+    }
     Runnable r1 = new Runnable() {
         @Override
         public void run() {
