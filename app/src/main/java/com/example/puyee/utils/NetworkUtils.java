@@ -96,9 +96,9 @@ public class NetworkUtils {
         return rsp;
     }
     public static RecognizeRsp getRecognizeResult(String url, String token, byte[] bytes) throws Exception {
-        OkHttpClient client = new OkHttpClient().newBuilder().callTimeout(20, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).build();
+        OkHttpClient client = new OkHttpClient().newBuilder().callTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).build();
         MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("images","/C:/Users/Dehong/Pictures/test.png", RequestBody.create(MediaType.parse("application/octet-stream"), bytes)).build();
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("images","test.png", RequestBody.create(MediaType.parse("application/octet-stream"), bytes)).build();
         Request request = new Request.Builder().url(url).method("POST", body).addHeader("X-Auth-Token", token).build();
         Response response = null;
         response = client.newCall(request).execute();

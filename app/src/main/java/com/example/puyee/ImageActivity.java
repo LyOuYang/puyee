@@ -51,6 +51,9 @@ public class ImageActivity extends BaseActivity {
         public void dispatchMessage(@NonNull Message msg) {
             super.dispatchMessage(msg);
             if (msg.what == 1) {
+                if (result == null) {
+                    return;
+                }
                 Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                 bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
                 Canvas canvas = new Canvas(bitmap);
