@@ -52,6 +52,7 @@ public class ImageActivity extends BaseActivity {
             super.dispatchMessage(msg);
             if (msg.what == 1) {
                 Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
                 Canvas canvas = new Canvas(bitmap);
                 Paint paint = new Paint();
                 // 抗锯齿
@@ -68,7 +69,7 @@ public class ImageActivity extends BaseActivity {
                         Double x1 = box.get(1);
                         Double y2 = box.get(2);
                         Double x2 = box.get(3);
-                        Rect bounds = new Rect();
+//                        Rect bounds = new Rect();
 //                        paint.getTextBounds(classes.get(i), 0, classes.get(i).length(), bounds);
 //                        int width = bounds.width();
                         setTextSizeForWidth(paint, (float) (x2-x1), classes.get(i));
@@ -76,6 +77,7 @@ public class ImageActivity extends BaseActivity {
                         canvas.drawText(classes.get(i), (float) (x1 - 0), (float) (y1 - 0), paint);
                     }
                 }
+                imageView.setImageBitmap(bitmap);
             }
         } };
 

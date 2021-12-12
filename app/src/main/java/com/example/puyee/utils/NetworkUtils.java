@@ -2,6 +2,7 @@ package com.example.puyee.utils;
 
 import android.graphics.Bitmap;
 
+import com.example.puyee.bean.Constants;
 import com.example.puyee.bean.recognize.RecognizeRsp;
 import com.example.puyee.bean.token.Auth;
 import com.example.puyee.bean.token.Domain;
@@ -87,6 +88,7 @@ public class NetworkUtils {
         String token = getQiaofeiToken();
         RecognizeRsp rsp = null;
         try {
+//            rsp = new Gson().fromJson(Constants.recognize_result, RecognizeRsp.class);
             rsp = getRecognizeResult(url, token, bytes);
         } catch (Exception e) {
             e.printStackTrace();
