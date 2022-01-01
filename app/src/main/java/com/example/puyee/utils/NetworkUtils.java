@@ -2,7 +2,6 @@ package com.example.puyee.utils;
 
 import android.graphics.Bitmap;
 
-import com.example.puyee.bean.Constants;
 import com.example.puyee.bean.recognize.RecognizeRsp;
 import com.example.puyee.bean.token.Auth;
 import com.example.puyee.bean.token.Domain;

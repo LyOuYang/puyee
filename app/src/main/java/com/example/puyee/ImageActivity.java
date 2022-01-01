@@ -40,10 +40,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class ImageActivity extends BaseActivity {
+public class ImageActivity extends AppCompatActivity {
     private static final int STORAGE_REQ_CODE = 10;
-    ImageView imageView;
+    PhotoView imageView;
     Button confirm;
     RecognizeRsp result;
     Handler handler = new Handler(Looper.myLooper()) {
@@ -121,6 +123,9 @@ public class ImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image);
         imageView = findViewById(R.id.image_view);
+        PhotoViewAttacher pAttacher;
+        pAttacher = new PhotoViewAttacher(imageView);
+        pAttacher.update();
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
         if (source.equals("1")) {
@@ -128,7 +133,7 @@ public class ImageActivity extends BaseActivity {
             startActivityForResult(image, 1);
         } else if (source.equals("2")) {
             isGetPermission();
-            Intent in = new  Intent(Intent.ACTION_PICK);
+            Intent in = new Intent(Intent.ACTION_PICK);
             //指定获取的是图片
             in.setType("image/*");
             startActivityForResult(in, 2);
@@ -138,6 +143,7 @@ public class ImageActivity extends BaseActivity {
         confirm.setOnClickListener((v) -> {
             Thread thread = new Thread(r1);
             thread.start();
+            confirm.setClickable(false);
         });
     }
 
