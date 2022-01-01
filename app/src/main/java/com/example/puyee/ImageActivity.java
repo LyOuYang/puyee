@@ -22,11 +22,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.puyee.bean.recognize.RecognizeRsp;
+import com.example.puyee.utils.ConvertUtils;
 import com.example.puyee.utils.NetworkUtils;
 
 import java.io.File;
@@ -48,6 +51,7 @@ public class ImageActivity extends AppCompatActivity {
     PhotoView imageView;
     Button confirm;
     RecognizeRsp result;
+    ProgressBar progress;
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void dispatchMessage(@NonNull Message msg) {
@@ -56,6 +60,8 @@ public class ImageActivity extends AppCompatActivity {
                 if (result == null) {
                     return;
                 }
+                progress.setVisibility(View.GONE);
+                confirm.setClickable(true);
                 Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                 bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
                 Canvas canvas = new Canvas(bitmap);
@@ -79,7 +85,8 @@ public class ImageActivity extends AppCompatActivity {
 //                        int width = bounds.width();
                         setTextSizeForWidth(paint, (float) (x2-x1), classes.get(i));
                         paint.setColor(Color.parseColor("#ff0000"));
-                        canvas.drawText(classes.get(i), (float) (x1 - 0), (float) (y1 - 0), paint);
+                        int num = ConvertUtils.convertToNumber(classes.get(i));
+                        canvas.drawText(String.valueOf(num), (float) (x1 - 0), (float) (y1 - 0), paint);
                     }
                 }
                 imageView.setImageBitmap(bitmap);
@@ -123,6 +130,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image);
         imageView = findViewById(R.id.image_view);
+        progress = findViewById(R.id.progressBar);
         PhotoViewAttacher pAttacher;
         pAttacher = new PhotoViewAttacher(imageView);
         pAttacher.update();
@@ -144,7 +152,9 @@ public class ImageActivity extends AppCompatActivity {
             Thread thread = new Thread(r1);
             thread.start();
             confirm.setClickable(false);
+            progress.setVisibility(View.VISIBLE);
         });
+
     }
 
     private boolean isGetPermission() {
