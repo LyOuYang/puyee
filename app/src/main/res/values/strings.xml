@@ -5,4 +5,5 @@
     <string name="preview">preview</string>
     <string name="upload">upload sheet music</string>
     <string name="convert">converting...</string>
+    <string name="adjust">adjust image</string>
 </resources>

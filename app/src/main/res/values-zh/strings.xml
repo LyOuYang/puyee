@@ -5,4 +5,5 @@
     <string name="preview">预览</string>
     <string name="upload">上传五线谱</string>
     <string name="convert">转换中...</string>
+    <string name="adjust">图片矫正</string>
 </resources>

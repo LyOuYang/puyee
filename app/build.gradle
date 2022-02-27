@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+apply plugin: 'com.android.application'
+
 android {
     compileSdk 31
 
@@ -40,4 +42,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.6.2'
     implementation("com.squareup.okhttp3:okhttp:4.2.0")
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    // Document skew correction.
+    implementation 'com.huawei.hms:ml-computer-vision-documentskew:2.1.0.300'
+    implementation 'com.huawei.hms:ml-computer-vision-documentskew-model:2.1.0.300'
+    implementation 'it.sephiroth.android.library.imagezoom:imagezoom:2.3.0'
 }
