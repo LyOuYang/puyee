@@ -29,7 +29,9 @@ import android.widget.Toast;
 
 import com.example.puyee.bean.recognize.RecognizeRsp;
 import com.example.puyee.utils.ConvertUtils;
+import com.example.puyee.utils.DocumentCorrectUtils;
 import com.example.puyee.utils.NetworkUtils;
+import com.example.puyee.view.DocumentCorrectImageView;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -44,6 +46,8 @@ public class ImageActivity extends AppCompatActivity {
     Button cancel;
     RecognizeRsp result;
     ProgressBar progress;
+    DocumentCorrectImageView documetScanView;
+    Bitmap bitmap;
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void dispatchMessage(@NonNull Message msg) {
@@ -125,6 +129,8 @@ public class ImageActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_view);
         progress = findViewById(R.id.progressBar);
         cancel = findViewById(R.id.cancel);
+        Button adjust = findViewById(R.id.adjust_confirm);
+        documetScanView = findViewById(R.id.iv_documetscan);
         cancel.setOnClickListener((v) -> {
             finish();
         });
@@ -152,6 +158,11 @@ public class ImageActivity extends AppCompatActivity {
             progress.setVisibility(View.VISIBLE);
         });
 
+        adjust.setOnClickListener(v -> {
+            Bitmap correctiveBitmap = DocumentCorrectUtils.correctiveBitmap(documetScanView, this.bitmap);
+            imageView.setImageBitmap(correctiveBitmap);
+            documetScanView.setVisibility(View.GONE);
+        });
     }
 
     private boolean isGetPermission() {
@@ -210,7 +221,7 @@ public class ImageActivity extends AppCompatActivity {
             finish();
             return;
         }
-        Bitmap bitmap = null;
+        bitmap = null;
         if (requestCode == 1) {
             bitmap = data.getParcelableExtra("data");
         } else {
@@ -222,7 +233,8 @@ public class ImageActivity extends AppCompatActivity {
             return;
         }
 
-        imageView.setImageBitmap(bitmap);
+        documetScanView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(bitmap);
     }
 
     private Bitmap getBitmapFromUri(Uri uris) {

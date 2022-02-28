@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="99dp"
+        android:layout_marginBottom="100dp">
+
+        <com.example.puyee.view.DocumentCorrectImageView
+            android:id="@+id/iv_documetscan"
+            app:LineColor="#008577"
+            android:layout_width="270dp"
+            android:layout_height="480dp"
+            android:layout_centerInParent="true"
+            android:padding="20dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +38,7 @@
             android:textColor="#AAAFB5"
             android:textSize="32sp" />
 
-        <com.example.puyee.view.DocumentCorrectImageView
+        <uk.co.senab.photoview.PhotoView
             android:id="@+id/image_view"
             android:layout_width="270dp"
             android:layout_height="480dp"
@@ -40,24 +56,23 @@
                 android:id="@+id/cancel"
                 fontPath="fonts/PlayfairDisplay-VariableFont_wght.ttf"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="64dp"
+                android:layout_weight="1"
                 android:text="@string/cancel" />
 
             <Button
-                android:text="@string/adjust"
                 android:id="@+id/adjust_confirm"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="64dp"
-                />
+                android:layout_weight="1"
+                android:text="@string/adjust" />
 
             <Button
                 android:id="@+id/confirm"
                 fontPath="fonts/PlayfairDisplay-VariableFont_wght.ttf"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
+                android:layout_weight="1"
                 android:text="@string/confirm" />
         </LinearLayout>
     </LinearLayout>

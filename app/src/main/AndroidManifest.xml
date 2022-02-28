@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:name=".PuyeeApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
