@@ -25,7 +25,7 @@
             android:id="@+id/save"
             android:layout_width="64dp"
             android:layout_height="90dp"
-            android:src="@drawable/download"/>
+            android:src="@drawable/icon"/>
 
     </LinearLayout>
 

@@ -41,6 +41,7 @@ public class ImageActivity extends AppCompatActivity {
     private static final int STORAGE_REQ_CODE = 10;
     PhotoView imageView;
     Button confirm;
+    Button cancel;
     RecognizeRsp result;
     ProgressBar progress;
     Handler handler = new Handler(Looper.myLooper()) {
@@ -49,6 +50,7 @@ public class ImageActivity extends AppCompatActivity {
             super.dispatchMessage(msg);
             if (msg.what == 1) {
                 if (result == null) {
+                    Toast.makeText(getApplicationContext(), "没有找到音符", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 progress.setVisibility(View.GONE);
@@ -122,6 +124,10 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.image);
         imageView = findViewById(R.id.image_view);
         progress = findViewById(R.id.progressBar);
+        cancel = findViewById(R.id.cancel);
+        cancel.setOnClickListener((v) -> {
+            finish();
+        });
         PhotoViewAttacher pAttacher;
         pAttacher = new PhotoViewAttacher(imageView);
         pAttacher.update();
