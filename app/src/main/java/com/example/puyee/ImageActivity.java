@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -32,6 +33,12 @@ import com.example.puyee.utils.ConvertUtils;
 import com.example.puyee.utils.DocumentCorrectUtils;
 import com.example.puyee.utils.NetworkUtils;
 import com.example.puyee.view.DocumentCorrectImageView;
+import com.huawei.hmf.tasks.OnFailureListener;
+import com.huawei.hmf.tasks.OnSuccessListener;
+import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.mlsdk.common.MLFrame;
+import com.huawei.hms.mlsdk.dsc.MLDocumentSkewCorrectionAnalyzer;
+import com.huawei.hms.mlsdk.dsc.MLDocumentSkewDetectResult;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -232,10 +239,47 @@ public class ImageActivity extends AppCompatActivity {
         if (bitmap == null) {
             return;
         }
-
-        documetScanView.setImageBitmap(bitmap);
+        reloadAndDetectImage();
 //        imageView.setImageBitmap(bitmap);
     }
+
+    private void reloadAndDetectImage() {
+        if (bitmap == null) {
+            return;
+        }
+
+        MLFrame frame = MLFrame.fromBitmap(bitmap);
+        MLDocumentSkewCorrectionAnalyzer analyzer = DocumentCorrectUtils.createAnalyzer();
+        Task<MLDocumentSkewDetectResult> task = analyzer.asyncDocumentSkewDetect(frame);
+        task.addOnSuccessListener(new OnSuccessListener<MLDocumentSkewDetectResult>() {
+
+            public void onSuccess(MLDocumentSkewDetectResult result) {
+                if (result.getResultCode() != 0) {
+                    Toast.makeText(ImageActivity.this, "The picture does not meet the requirements.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Recognition success.
+                    Point leftTop = result.getLeftTopPosition();
+                    Point rightTop = result.getRightTopPosition();
+                    Point leftBottom = result.getLeftBottomPosition();
+                    Point rightBottom = result.getRightBottomPosition();
+
+                    Point[] _points = new Point[4];
+                    _points[0] = leftTop;
+                    _points[1] = rightTop;
+                    _points[2] = rightBottom;
+                    _points[3] = leftBottom;
+                    imageView.setVisibility(View.GONE);
+                    documetScanView.setImageBitmap(bitmap);
+                    documetScanView.setPoints(_points);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            public void onFailure(Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private Bitmap getBitmapFromUri(Uri uris) {
         Bitmap bitmap = null;

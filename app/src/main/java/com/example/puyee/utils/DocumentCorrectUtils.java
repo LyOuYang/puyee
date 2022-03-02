@@ -30,7 +30,7 @@ public class DocumentCorrectUtils {
         return getDetectdetectResult(coordinateData, frame);
     }
 
-    private static MLDocumentSkewCorrectionAnalyzer createAnalyzer() {
+    public static MLDocumentSkewCorrectionAnalyzer createAnalyzer() {
         MLDocumentSkewCorrectionAnalyzerSetting setting = new MLDocumentSkewCorrectionAnalyzerSetting
                 .Factory()
                 .create();
