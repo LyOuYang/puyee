@@ -7,21 +7,6 @@
     android:gravity="center"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="99dp"
-        android:layout_marginBottom="100dp">
-
-        <com.example.puyee.view.DocumentCorrectImageView
-            android:id="@+id/iv_documetscan"
-            app:LineColor="#008577"
-            android:layout_width="270dp"
-            android:layout_height="480dp"
-            android:layout_centerInParent="true"
-            android:padding="20dp" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,13 +23,23 @@
             android:textColor="#AAAFB5"
             android:textSize="32sp" />
 
+
+        <com.example.puyee.view.DocumentCorrectImageView
+            android:id="@+id/iv_documetscan"
+            app:LineColor="#008577"
+            android:layout_width="270dp"
+            android:layout_height="480dp"
+            android:layout_centerInParent="true"
+            android:padding="20dp" />
+
         <uk.co.senab.photoview.PhotoView
             android:id="@+id/image_view"
             android:layout_width="270dp"
             android:layout_height="480dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            tools:ignore="MissingClass" />
+            tools:ignore="MissingClass"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"

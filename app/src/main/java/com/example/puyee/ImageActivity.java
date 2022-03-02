@@ -169,6 +169,7 @@ public class ImageActivity extends AppCompatActivity {
             Bitmap correctiveBitmap = DocumentCorrectUtils.correctiveBitmap(documetScanView, this.bitmap);
             imageView.setImageBitmap(correctiveBitmap);
             documetScanView.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
         });
     }
 
