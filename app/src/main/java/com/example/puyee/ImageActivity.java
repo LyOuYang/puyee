@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,7 @@ public class ImageActivity extends AppCompatActivity {
     ProgressBar progress;
     DocumentCorrectImageView documetScanView;
     Bitmap bitmap;
+    Uri imageUri;
     Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void dispatchMessage(@NonNull Message msg) {
@@ -149,8 +151,10 @@ public class ImageActivity extends AppCompatActivity {
         String source = intent.getStringExtra("source");
         isGetPermission();
         if (source.equals("1")) {
-            Intent image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(image, 1);
+//            Intent image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            startActivityForResult(image, 1);
+            initPhotoError();
+            takePhotos();
         } else if (source.equals("2")) {
             Intent in = new Intent(Intent.ACTION_PICK);
             //指定获取的是图片
@@ -172,6 +176,19 @@ public class ImageActivity extends AppCompatActivity {
             documetScanView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
         });
+    }
+
+    /**
+     * 拍照并存储到相册
+     *
+     */
+    public void takePhotos() {
+        imageUri = Uri.fromFile(CameraUtils.getImageStoragePath(this));
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //指定照片存储路径
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent,3);
     }
 
     private boolean isGetPermission() {
@@ -231,7 +248,8 @@ public class ImageActivity extends AppCompatActivity {
         }
 
         if (requestCode == 3) {
-            CameraUtils.startPhotoZoom();
+            CameraUtils.putOriginalBitmap(imageUri);
+            bitmap = getBitmapFromUri(imageUri);
         }
 
         if (bitmap == null) {
@@ -277,6 +295,13 @@ public class ImageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void initPhotoError(){
+        // android 7.0系统解决拍照的问题
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
     }
 
     public Point[] getDefaultPoint() {
