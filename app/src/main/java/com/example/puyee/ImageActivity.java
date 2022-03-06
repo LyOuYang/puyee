@@ -146,11 +146,11 @@ public class ImageActivity extends AppCompatActivity {
         pAttacher.update();
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
+        isGetPermission();
         if (source.equals("1")) {
             Intent image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(image, 1);
         } else if (source.equals("2")) {
-            isGetPermission();
             Intent in = new Intent(Intent.ACTION_PICK);
             //指定获取的是图片
             in.setType("image/*");
@@ -206,16 +206,6 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 
-    private boolean getVideoPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BIND_VOICE_INTERACTION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        // 否----》弹框让用户给予权限
-        String[] permission = {Manifest.permission.BIND_VOICE_INTERACTION};
-        ActivityCompat.requestPermissions(ImageActivity.this, permission, 11);
-        return false;
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -243,7 +233,6 @@ public class ImageActivity extends AppCompatActivity {
             return;
         }
         reloadAndDetectImage();
-//        imageView.setImageBitmap(bitmap);
     }
 
     private void reloadAndDetectImage() {
@@ -255,9 +244,11 @@ public class ImageActivity extends AppCompatActivity {
         MLDocumentSkewCorrectionAnalyzer analyzer = DocumentCorrectUtils.createAnalyzer();
         Task<MLDocumentSkewDetectResult> task = analyzer.asyncDocumentSkewDetect(frame);
         task.addOnSuccessListener(new OnSuccessListener<MLDocumentSkewDetectResult>() {
-
             public void onSuccess(MLDocumentSkewDetectResult result) {
                 if (result.getResultCode() != 0) {
+                    documetScanView.setImageBitmap(bitmap);
+                    Point[] _points = getDefaultPoint();
+                    documetScanView.setPoints(_points);
                     Toast.makeText(ImageActivity.this, "The picture does not meet the requirements.", Toast.LENGTH_SHORT).show();
                 } else {
                     // Recognition success.
@@ -281,6 +272,15 @@ public class ImageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public Point[] getDefaultPoint() {
+        Point[] _points = new Point[4];
+        _points[0] = new Point(0,0);
+        _points[1] = new Point(bitmap.getWidth(), 0);
+        _points[2] = new Point(bitmap.getWidth(), bitmap.getHeight());
+        _points[3] = new Point(0, bitmap.getHeight());
+        return _points;
     }
 
 
