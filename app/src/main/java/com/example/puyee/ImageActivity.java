@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Intent;
@@ -22,7 +23,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +42,7 @@ import com.huawei.hms.mlsdk.common.MLFrame;
 import com.huawei.hms.mlsdk.dsc.MLDocumentSkewCorrectionAnalyzer;
 import com.huawei.hms.mlsdk.dsc.MLDocumentSkewDetectResult;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -153,7 +154,6 @@ public class ImageActivity extends AppCompatActivity {
         if (source.equals("1")) {
 //            Intent image = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //            startActivityForResult(image, 1);
-            initPhotoError();
             takePhotos();
         } else if (source.equals("2")) {
             Intent in = new Intent(Intent.ACTION_PICK);
@@ -183,10 +183,10 @@ public class ImageActivity extends AppCompatActivity {
      *
      */
     public void takePhotos() {
-        imageUri = Uri.fromFile(CameraUtils.getImageStoragePath(this));
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         //指定照片存储路径
+        File cameraPhoto = CameraUtils.getImageStoragePath(this);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        imageUri = FileProvider.getUriForFile(ImageActivity.this, "puyee.fileprovider", cameraPhoto);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent,3);
     }
@@ -234,15 +234,17 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            onDestroy();
-            finish();
-            return;
-        }
+//        if (data == null) {
+//            onDestroy();
+//            finish();
+//            return;
+//        }
         bitmap = null;
         if (requestCode == 1) {
             bitmap = data.getParcelableExtra("data");
-        } else {
+        }
+
+        if (requestCode == 2) {
             Uri uris = data.getData();
             bitmap = getBitmapFromUri(uris);
         }
@@ -295,13 +297,6 @@ public class ImageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void initPhotoError(){
-        // android 7.0系统解决拍照的问题
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
     }
 
     public Point[] getDefaultPoint() {

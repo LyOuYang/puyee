@@ -18,6 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true" >
+        <provider
+            android:authorities="puyee.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:name="androidx.core.content.FileProvider">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <meta-data
             android:name="com.huawei.hms.client.channel.androidMarket"
             android:value="false" />
