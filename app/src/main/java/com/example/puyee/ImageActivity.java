@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.puyee.bean.recognize.RecognizeRsp;
+import com.example.puyee.utils.CameraUtils;
 import com.example.puyee.utils.ConvertUtils;
 import com.example.puyee.utils.DocumentCorrectUtils;
 import com.example.puyee.utils.NetworkUtils;
@@ -237,6 +238,10 @@ public class ImageActivity extends AppCompatActivity {
         } else {
             Uri uris = data.getData();
             bitmap = getBitmapFromUri(uris);
+        }
+
+        if (requestCode == 3) {
+            CameraUtils.startPhotoZoom();
         }
 
         if (bitmap == null) {
