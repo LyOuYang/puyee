@@ -120,6 +120,7 @@ public class ImageActivity extends AppCompatActivity {
         // Set the paint for that size.
         paint.setTextSize(desiredTextSize);
     }
+
     Runnable r1 = new Runnable() {
         @Override
         public void run() {
@@ -131,7 +132,6 @@ public class ImageActivity extends AppCompatActivity {
             handler.sendMessage(message);
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -35,10 +35,10 @@ public class NetworkUtils {
         Password password = new Password();
         User user = new User();
         Domain domain = new Domain();
-        domain.setName("hw_008615274953454_02");
-        user.setName("liqiaofei");
+        domain.setName("sophie_0825");
+        user.setName("sophie_0825");
         user.setDomain(domain);
-        user.setPassword("puyee@liqiaofei");
+        user.setPassword("hw012Shishier");
         password.setUser(user);
         List<String> methods = new ArrayList<>();
         methods.add("password");
@@ -47,11 +47,11 @@ public class NetworkUtils {
         auth.setIdentity(identity);
         Scope scope = new Scope();
         Project project = new Project();
-        project.setName("cn-south-1");
+        project.setName("ap-southeast-1");
         scope.setProject(project);
         auth.setScope(scope);
         req.setAuth(auth);
-        return NetworkUtils.getHuaweiToken("https://iam.myhuaweicloud.com/v3/auth/tokens", req);
+        return NetworkUtils.getHuaweiToken("https://iam.ap-southeast-1.myhwclouds.com/v3/auth/tokens", req);
     }
 
 
@@ -83,7 +83,7 @@ public class NetworkUtils {
     }
 
     public static RecognizeRsp getPuyeeRecognize(byte[] bytes) {
-        String url = "https://ef577de4563e4a4b8186481fc5752730.apigw.cn-south-1.huaweicloud.com/v1/infers/ea50aaa9-beba-4880-b018-87a52085cdd0";
+        String url = "https://d206d0062c244291b76468b9a883f36a.apigw.ap-southeast-1.huaweicloud.com/v1/infers/eb056f64-4af4-445c-b519-58400c9e3bb0";
         String token = getQiaofeiToken();
         RecognizeRsp rsp = null;
         try {
